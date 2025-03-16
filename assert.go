@@ -31,8 +31,7 @@ import (
 	"testing"
 )
 
-const trueFailureMsgTemplate = "%s = %t, want %t"   // Default template to use for the 'True' function.
-const falseFailureMsgTemplate = "%s = %t, want %t"  // Default template to use for the 'False' function.
+const boolFailureMsgTemplate = "%s = %t, want %t"   // Default template to use for the 'True' function.
 const equalFailureMsgTemplate = "%s = %v, want %v"  // Default template to use for the 'Equal' function.
 const equalSFailureMsgTemplate = "%s = %v, want %v" // Default template to use for the 'EqualS' function.
 
@@ -42,7 +41,7 @@ func True(tb testing.TB, got bool, name string, msg ...any) {
 	if !got {
 		tb.Helper()
 
-		failTB(tb, got, true, name, trueFailureMsgTemplate, msg...)
+		failTB(tb, got, true, name, boolFailureMsgTemplate, msg...)
 	}
 }
 
@@ -52,7 +51,7 @@ func False(tb testing.TB, got bool, name string, msg ...any) {
 	if got {
 		tb.Helper()
 
-		failTB(tb, got, false, name, falseFailureMsgTemplate, msg...)
+		failTB(tb, got, false, name, boolFailureMsgTemplate, msg...)
 	}
 }
 
