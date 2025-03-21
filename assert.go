@@ -31,9 +31,13 @@ import (
 	"testing"
 )
 
-const boolFailureMsgTemplate = "%s = %t, want %t"   // Default template to use for the 'True' function.
-const equalFailureMsgTemplate = "%s = %v, want %v"  // Default template to use for the 'Equal' function.
-const equalSFailureMsgTemplate = "%s = %v, want %v" // Default template to use for the 'EqualS' function.
+const (
+	boolFailureMsgTemplate   = "%s = %t, want %t"     // Default template to use for the 'True' and 'False' functions.
+	nilFailureMessage        = "%s = %v, want %v"     // Default template to use for the 'Nil' function.
+	notNilFailureMessage     = "%s = %v, want NOT %v" // Default template to use for the 'NotNil' function.
+	equalFailureMsgTemplate  = "%s = %v, want %v"     // Default template to use for the 'Equal' function.
+	equalSFailureMsgTemplate = "%s = %v, want %v"     // Default template to use for the 'EqualS' function.
+)
 
 // True compares got against the boolean 'true' value.
 // If they aren't equal, tb is marked as failed, and it's execution is terminated.
@@ -62,6 +66,26 @@ func Equal[V comparable](tb testing.TB, got, want V, name string, msg ...any) {
 		tb.Helper()
 
 		failTB(tb, got, want, name, equalFailureMsgTemplate, msg...)
+	}
+}
+
+// Nil compares got against <nil> for equality.
+// If they aren't equal, tb is marked as failed, and it's execution is terminated.
+func Nil(tb testing.TB, got any, name string, msg ...any) {
+	if got != nil {
+		tb.Helper()
+
+		failTB(tb, got, nil, name, nilFailureMessage, msg...)
+	}
+}
+
+// NotNil compares got against NOT <nil> for equality.
+// If they aren't equal, tb is marked as failed, and it's execution is terminated.
+func NotNil(tb testing.TB, got any, name string, msg ...any) {
+	if got == nil {
+		tb.Helper()
+
+		failTB(tb, got, nil, name, notNilFailureMessage, msg...)
 	}
 }
 

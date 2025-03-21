@@ -209,6 +209,116 @@ func TestEqual(t *testing.T) {
 	})
 }
 
+// UT: Compare a value against '<nil>'.
+func TestNil(t *testing.T) {
+	t.Parallel() // Enable parallel execution.
+
+	for tcName, tc := range map[string]struct {
+		gInput    any
+		nameInput string
+		want      string
+	}{
+		"When 'got' is a number.": {
+			gInput:    1,
+			nameInput: "Update()",
+			want:      "Update() = 1, want <nil>",
+		},
+		"When 'got' is '<nil>'.": {
+			gInput:    nil,
+			nameInput: "Update()",
+		},
+	} {
+		tc := tc // Rebind 'tc'. Note: This is required to support "parallel" execution.
+
+		// EXECUTION.
+		t.Run(tcName, func(t *testing.T) {
+			t.Parallel() // Enable parallel execution.
+
+			// ARRANGE.
+			testingT := &testableT{TB: t}
+
+			// ACT.
+			assert.Nil(testingT, tc.gInput, tc.nameInput)
+
+			// ASSERT.
+			if testingT.failureMsg != tc.want {
+				t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg, tc.want)
+			}
+		})
+	}
+
+	// EXECUTION.
+	t.Run("When using a custom failure message.", func(t *testing.T) {
+		t.Parallel() // Enable parallel execution.
+
+		// ARRANGE.
+		testingT := &testableT{TB: t}
+
+		// ACT.
+		assert.Nil(testingT, 1, "", "UT Failed: `Update()` - got %v, want <nil>.", 1)
+
+		// ASSERT.
+		if testingT.failureMsg != "UT Failed: `Update()` - got 1, want <nil>." {
+			t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg, "UT Failed: `Update()` - got 1, want <nil>.")
+		}
+	})
+}
+
+// UT: Compare a value against NOT '<nil>'.
+func TestNotNil(t *testing.T) {
+	t.Parallel() // Enable parallel execution.
+
+	for tcName, tc := range map[string]struct {
+		gInput    any
+		nameInput string
+		want      string
+	}{
+		"When 'got' is <nil>.": {
+			gInput:    nil,
+			nameInput: "Update()",
+			want:      "Update() = <nil>, want NOT <nil>",
+		},
+		"When 'got' is a number.": {
+			gInput:    1,
+			nameInput: "Update()",
+		},
+	} {
+		tc := tc // Rebind 'tc'. Note: This is required to support "parallel" execution.
+
+		// EXECUTION.
+		t.Run(tcName, func(t *testing.T) {
+			t.Parallel() // Enable parallel execution.
+
+			// ARRANGE.
+			testingT := &testableT{TB: t}
+
+			// ACT.
+			assert.NotNil(testingT, tc.gInput, tc.nameInput)
+
+			// ASSERT.
+			if testingT.failureMsg != tc.want {
+				t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg, tc.want)
+			}
+		})
+	}
+
+	// EXECUTION.
+	t.Run("When using a custom failure message.", func(t *testing.T) {
+		t.Parallel() // Enable parallel execution.
+
+		// ARRANGE.
+		testingT := &testableT{TB: t}
+
+		// ACT.
+		assert.NotNil(testingT, nil, "", "UT Failed: `Update()` - got <nil>, want NOT <nil>.")
+
+		// ASSERT.
+		if testingT.failureMsg != "UT Failed: `Update()` - got <nil>, want NOT <nil>." {
+			t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg, "UT Failed: `Update()` - got <nil>, want NOT <nil>.")
+		}
+	})
+}
+
 // UT: Compare 2 values for equality.
 func TestEqualS(t *testing.T) {
 	t.Parallel() // Enable parallel execution.
