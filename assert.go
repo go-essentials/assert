@@ -90,12 +90,12 @@ func NotNil(tb testing.TB, got any, name string, msg ...any) {
 }
 
 // EqualS compares got against want for equality.
-// If they are not equal, t is marked as failed, and it's execution is terminated.
-func EqualS[S ~[]E, E comparable](t testing.TB, got, want S, name string, msg ...any) {
+// If they are not equal, tb is marked as failed, and it's execution is terminated.
+func EqualS[S ~[]E, E comparable](tb testing.TB, got, want S, name string, msg ...any) {
 	if !slices.Equal(got, want) {
-		t.Helper()
+		tb.Helper()
 
-		failTB(t, got, want, name, equalSFailureMsgTemplate, msg...)
+		failTB(tb, got, want, name, equalSFailureMsgTemplate, msg...)
 	}
 }
 
