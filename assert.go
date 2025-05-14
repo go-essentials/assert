@@ -43,8 +43,6 @@ const (
 // If they aren't equal, tb is marked as failed, and it's execution is terminated.
 func True(tb testing.TB, got bool, name string, msg ...any) {
 	if !got {
-		tb.Helper()
-
 		failTB(tb, got, true, name, boolFailureMsgTemplate, msg...)
 	}
 }
@@ -53,8 +51,6 @@ func True(tb testing.TB, got bool, name string, msg ...any) {
 // If they aren't equal, tb is marked as failed, and it's execution is terminated.
 func False(tb testing.TB, got bool, name string, msg ...any) {
 	if got {
-		tb.Helper()
-
 		failTB(tb, got, false, name, boolFailureMsgTemplate, msg...)
 	}
 }
@@ -63,8 +59,6 @@ func False(tb testing.TB, got bool, name string, msg ...any) {
 // If they aren't equal, tb is marked as failed, and it's execution is terminated.
 func Equal[V comparable](tb testing.TB, got, want V, name string, msg ...any) {
 	if got != want {
-		tb.Helper()
-
 		failTB(tb, got, want, name, equalFailureMsgTemplate, msg...)
 	}
 }
@@ -73,8 +67,6 @@ func Equal[V comparable](tb testing.TB, got, want V, name string, msg ...any) {
 // If they aren't equal, tb is marked as failed, and it's execution is terminated.
 func Nil(tb testing.TB, got any, name string, msg ...any) {
 	if got != nil {
-		tb.Helper()
-
 		failTB(tb, got, nil, name, nilFailureMessage, msg...)
 	}
 }
@@ -83,8 +75,6 @@ func Nil(tb testing.TB, got any, name string, msg ...any) {
 // If they aren't equal, tb is marked as failed, and it's execution is terminated.
 func NotNil(tb testing.TB, got any, name string, msg ...any) {
 	if got == nil {
-		tb.Helper()
-
 		failTB(tb, got, nil, name, notNilFailureMessage, msg...)
 	}
 }
@@ -93,14 +83,14 @@ func NotNil(tb testing.TB, got any, name string, msg ...any) {
 // If they are not equal, tb is marked as failed, and it's execution is terminated.
 func EqualS[S ~[]E, E comparable](tb testing.TB, got, want S, name string, msg ...any) {
 	if !slices.Equal(got, want) {
-		tb.Helper()
-
 		failTB(tb, got, want, name, equalSFailureMsgTemplate, msg...)
 	}
 }
 
 // Marks tb as failed and terminates its execution.
 func failTB[V any](tb testing.TB, got, want V, name, template string, msg ...any) {
+	tb.Helper()
+
 	if name != "" {
 		tb.Fatalf(template, name, got, want)
 	} else {
