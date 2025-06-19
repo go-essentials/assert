@@ -31,81 +31,128 @@ import (
 	"testing"
 )
 
-const (
-	boolFailureMsgTemplate   = "%s = %t, want %t"     // Default template to use for the 'True' and 'False' functions.
-	nilFailureMessage        = "%s = %v, want %v"     // Default template to use for the 'Nil' function.
-	notNilFailureMessage     = "%s = %v, want NOT %v" // Default template to use for the 'NotNil' function.
-	equalFailureMsgTemplate  = "%s = %v, want %v"     // Default template to use for the 'Equal' function.
-	equalSFailureMsgTemplate = "%s = %v, want %v"     // Default template to use for the 'EqualS' function.
-)
-
 // True compares got against the boolean 'true' value.
 // If they aren't equal, tb is marked as failed, and it's execution is terminated.
-func True(tb testing.TB, got bool, name string, msg ...any) {
+func True(tb testing.TB, got bool, name string) {
 	tb.Helper()
 
 	if !got {
-		failTB(tb, got, true, name, boolFailureMsgTemplate, msg...)
+		tb.Fatalf("%s = %t, want %t", name, got, true)
+	}
+}
+
+// Truef compares got against the boolean 'true' value.
+// If they aren't equal, tb is marked as failed, and it's execution is terminated.
+// The error message is formatted using fmt.Sprintf with the provided format and args.
+func Truef(tb testing.TB, got bool, format string, args ...any) {
+	tb.Helper()
+
+	if !got {
+		tb.Fatalf(format, args...)
 	}
 }
 
 // False compares got against the boolean 'false' value.
 // If they aren't equal, tb is marked as failed, and it's execution is terminated.
-func False(tb testing.TB, got bool, name string, msg ...any) {
+func False(tb testing.TB, got bool, name string) {
 	tb.Helper()
 
 	if got {
-		failTB(tb, got, false, name, boolFailureMsgTemplate, msg...)
+		tb.Fatalf("%s = %t, want %t", name, got, false)
+	}
+}
+
+// Falsef compares got against the boolean 'false' value.
+// If they aren't equal, tb is marked as failed, and it's execution is terminated.
+// The error message is formatted using fmt.Sprintf with the provided format and args.
+func Falsef(tb testing.TB, got bool, format string, args ...any) {
+	tb.Helper()
+
+	if got {
+		tb.Fatalf(format, args...)
 	}
 }
 
 // Equal compares got against want for equality.
 // If they aren't equal, tb is marked as failed, and it's execution is terminated.
-func Equal[V comparable](tb testing.TB, got, want V, name string, msg ...any) {
+func Equal[V comparable](tb testing.TB, got, want V, name string) {
 	tb.Helper()
 
 	if got != want {
-		failTB(tb, got, want, name, equalFailureMsgTemplate, msg...)
+		tb.Fatalf("%s = %v, want %v", name, got, want)
+	}
+}
+
+// Equalf compares got against want for equality.
+// If they aren't equal, tb is marked as failed, and it's execution is terminated.
+// The error message is formatted using fmt.Sprintf with the provided format and args.
+func Equalf[V comparable](tb testing.TB, got, want V, format string, args ...any) {
+	tb.Helper()
+
+	if got != want {
+		tb.Fatalf(format, args...)
 	}
 }
 
 // Nil compares got against <nil> for equality.
 // If they aren't equal, tb is marked as failed, and it's execution is terminated.
-func Nil(tb testing.TB, got any, name string, msg ...any) {
+func Nil(tb testing.TB, got any, name string) {
 	tb.Helper()
 
 	if got != nil {
-		failTB(tb, got, nil, name, nilFailureMessage, msg...)
+		tb.Fatalf("%s = %v, want %v", name, got, "<nil>")
+	}
+}
+
+// Nilf compares got against <nil> for equality.
+// If they aren't equal, tb is marked as failed, and it's execution is terminated.
+// The error message is formatted using fmt.Sprintf with the provided format and args.
+func Nilf(tb testing.TB, got any, format string, args ...any) {
+	tb.Helper()
+
+	if got != nil {
+		tb.Fatalf(format, args...)
 	}
 }
 
 // NotNil compares got against NOT <nil> for equality.
 // If they aren't equal, tb is marked as failed, and it's execution is terminated.
-func NotNil(tb testing.TB, got any, name string, msg ...any) {
+func NotNil(tb testing.TB, got any, name string) {
 	tb.Helper()
 
 	if got == nil {
-		failTB(tb, got, nil, name, notNilFailureMessage, msg...)
+		tb.Fatalf("%s = %v, want NOT %v", name, got, "<nil>")
+	}
+}
+
+// NotNilf compares got against NOT <nil> for equality.
+// If they aren't equal, tb is marked as failed, and it's execution is terminated.
+// The error message is formatted using fmt.Sprintf with the provided format and args.
+func NotNilf(tb testing.TB, got any, format string, args ...any) {
+	tb.Helper()
+
+	if got == nil {
+		tb.Fatalf(format, args...)
 	}
 }
 
 // EqualS compares got against want for equality.
 // If they are not equal, tb is marked as failed, and it's execution is terminated.
-func EqualS[S ~[]E, E comparable](tb testing.TB, got, want S, name string, msg ...any) {
+func EqualS[S ~[]E, E comparable](tb testing.TB, got, want S, name string) {
 	tb.Helper()
 
 	if !slices.Equal(got, want) {
-		failTB(tb, got, want, name, equalSFailureMsgTemplate, msg...)
+		tb.Fatalf("%s = %v, want %v", name, got, want)
 	}
 }
 
-// Marks tb as failed and terminates its execution.
-func failTB[V any](tb testing.TB, got, want V, name, template string, msg ...any) {
+// EqualSf compares got against want for equality.
+// If they are not equal, tb is marked as failed, and it's execution is terminated.
+// The error message is formatted using fmt.Sprintf with the provided format and args.
+func EqualSf[S ~[]E, E comparable](tb testing.TB, got, want S, format string, args ...any) {
 	tb.Helper()
 
-	if name != "" {
-		tb.Fatalf(template, name, got, want)
-	} else {
-		tb.Fatalf(msg[0].(string), msg[1:]...)
+	if !slices.Equal(got, want) {
+		tb.Fatalf(format, args...)
 	}
 }

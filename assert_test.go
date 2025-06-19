@@ -81,22 +81,22 @@ func TestTrue(t *testing.T) {
 			}
 		})
 	}
+}
 
-	// EXECUTION.
-	t.Run("When using a custom failure message.", func(t *testing.T) {
-		t.Parallel() // Enable parallel execution.
+// UT: Compare a value against the boolean 'true' value.
+func TestTruef(t *testing.T) {
+	t.Parallel() // Enable parallel execution.
 
-		// ARRANGE.
-		testingT := &testableT{TB: t}
+	// ARRANGE.
+	testingT := &testableT{TB: t}
 
-		// ACT.
-		assert.True(testingT, false, "", "UT Failed: `IsDigit(\"0\")` - got %t, want %t.", false, true)
+	// ACT.
+	assert.Truef(testingT, false, "UT Failed: `IsDigit(\"0\")` - got %t, want %t.", false, true)
 
-		// ASSERT.
-		if testingT.failureMsg != "UT Failed: `IsDigit(\"0\")` - got false, want true." {
-			t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg, "UT Failed: `IsDigit(\"0\")` - got false, want true.")
-		}
-	})
+	// ASSERT.
+	if testingT.failureMsg != "UT Failed: `IsDigit(\"0\")` - got false, want true." {
+		t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg, "UT Failed: `IsDigit(\"0\")` - got false, want true.")
+	}
 }
 
 // UT: Compare a value against the boolean 'false' value.
@@ -136,22 +136,22 @@ func TestFalse(t *testing.T) {
 			}
 		})
 	}
+}
 
-	// EXECUTION.
-	t.Run("When using a custom failure message.", func(t *testing.T) {
-		t.Parallel() // Enable parallel execution.
+// UT: Compare a value against the boolean 'false' value.
+func TestFalsef(t *testing.T) {
+	t.Parallel() // Enable parallel execution.
 
-		// ARRANGE.
-		testingT := &testableT{TB: t}
+	// ARRANGE.
+	testingT := &testableT{TB: t}
 
-		// ACT.
-		assert.False(testingT, true, "", "UT Failed: `IsLetter(\"0\")` - got %t, want %t.", true, false)
+	// ACT.
+	assert.Falsef(testingT, true, "UT Failed: `IsLetter(\"0\")` - got %t, want %t.", true, false)
 
-		// ASSERT.
-		if testingT.failureMsg != "UT Failed: `IsLetter(\"0\")` - got true, want false." {
-			t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg, "UT Failed: `IsLetter(\"0\")` - got true, want false.")
-		}
-	})
+	// ASSERT.
+	if testingT.failureMsg != "UT Failed: `IsLetter(\"0\")` - got true, want false." {
+		t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg, "UT Failed: `IsLetter(\"0\")` - got true, want false.")
+	}
 }
 
 // UT: Compare 2 values for equality.
@@ -191,22 +191,22 @@ func TestEqual(t *testing.T) {
 			}
 		})
 	}
+}
 
-	// EXECUTION.
-	t.Run("When using a custom failure message.", func(t *testing.T) {
-		t.Parallel() // Enable parallel execution.
+// UT: Compare 2 values for equality.
+func TestEqualf(t *testing.T) {
+	t.Parallel() // Enable parallel execution.
 
-		// ARRANGE.
-		testingT := &testableT{TB: t}
+	// ARRANGE.
+	testingT := &testableT{TB: t}
 
-		// ACT.
-		assert.Equal(testingT, false, true, "", "UT Failed: `IsDigit(\"0\")` - got %t, want %t.", false, true)
+	// ACT.
+	assert.Equalf(testingT, false, true, "UT Failed: `IsDigit(\"0\")` - got %t, want %t.", false, true)
 
-		// ASSERT.
-		if testingT.failureMsg != "UT Failed: `IsDigit(\"0\")` - got false, want true." {
-			t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg, "UT Failed: `IsDigit(\"0\")` - got false, want true.")
-		}
-	})
+	// ASSERT.
+	if testingT.failureMsg != "UT Failed: `IsDigit(\"0\")` - got false, want true." {
+		t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg, "UT Failed: `IsDigit(\"0\")` - got false, want true.")
+	}
 }
 
 // UT: Compare a value against '<nil>'.
@@ -246,22 +246,22 @@ func TestNil(t *testing.T) {
 			}
 		})
 	}
+}
 
-	// EXECUTION.
-	t.Run("When using a custom failure message.", func(t *testing.T) {
-		t.Parallel() // Enable parallel execution.
+// UT: Compare a value against '<nil>'.
+func TestNilf(t *testing.T) {
+	t.Parallel() // Enable parallel execution.
 
-		// ARRANGE.
-		testingT := &testableT{TB: t}
+	// ARRANGE.
+	testingT := &testableT{TB: t}
 
-		// ACT.
-		assert.Nil(testingT, 1, "", "UT Failed: `Update()` - got %v, want <nil>.", 1)
+	// ACT.
+	assert.Nilf(testingT, 1, "UT Failed: `Update()` - got %v, want <nil>.", 1)
 
-		// ASSERT.
-		if testingT.failureMsg != "UT Failed: `Update()` - got 1, want <nil>." {
-			t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg, "UT Failed: `Update()` - got 1, want <nil>.")
-		}
-	})
+	// ASSERT.
+	if testingT.failureMsg != "UT Failed: `Update()` - got 1, want <nil>." {
+		t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg, "UT Failed: `Update()` - got 1, want <nil>.")
+	}
 }
 
 // UT: Compare a value against NOT '<nil>'.
@@ -301,22 +301,22 @@ func TestNotNil(t *testing.T) {
 			}
 		})
 	}
+}
 
-	// EXECUTION.
-	t.Run("When using a custom failure message.", func(t *testing.T) {
-		t.Parallel() // Enable parallel execution.
+// UT: Compare a value against NOT '<nil>'.
+func TestNotNilf(t *testing.T) {
+	t.Parallel() // Enable parallel execution.
 
-		// ARRANGE.
-		testingT := &testableT{TB: t}
+	// ARRANGE.
+	testingT := &testableT{TB: t}
 
-		// ACT.
-		assert.NotNil(testingT, nil, "", "UT Failed: `Update()` - got <nil>, want NOT <nil>.")
+	// ACT.
+	assert.NotNilf(testingT, nil, "UT Failed: `Update()` - got <nil>, want NOT <nil>.")
 
-		// ASSERT.
-		if testingT.failureMsg != "UT Failed: `Update()` - got <nil>, want NOT <nil>." {
-			t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg, "UT Failed: `Update()` - got <nil>, want NOT <nil>.")
-		}
-	})
+	// ASSERT.
+	if testingT.failureMsg != "UT Failed: `Update()` - got <nil>, want NOT <nil>." {
+		t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg, "UT Failed: `Update()` - got <nil>, want NOT <nil>.")
+	}
 }
 
 // UT: Compare 2 values for equality.
@@ -358,21 +358,21 @@ func TestEqualS(t *testing.T) {
 			}
 		})
 	}
+}
 
-	// EXECUTION.
-	t.Run("When using a custom failure message.", func(t *testing.T) {
-		t.Parallel() // Enable parallel execution.
+// UT: Compare 2 values for equality.
+func TestEqualSf(t *testing.T) {
+	t.Parallel() // Enable parallel execution.
 
-		// ARRANGE.
-		testingT := &testableT{TB: t}
-		got, want := []int{1, 2, 3}, []int{3, 2, 1}
+	// ARRANGE.
+	testingT := &testableT{TB: t}
+	got, want := []int{1, 2, 3}, []int{3, 2, 1}
 
-		// ACT.
-		assert.EqualS(testingT, got, want, "", "UT Failed: `Right([1 2 3], [3 2 1])` - got %v, want %v.", got, want)
+	// ACT.
+	assert.EqualSf(testingT, got, want, "UT Failed: `Right([1 2 3], [3 2 1])` - got %v, want %v.", got, want)
 
-		// ASSERT.
-		if testingT.failureMsg != "UT Failed: `Right([1 2 3], [3 2 1])` - got [1 2 3], want [3 2 1]." {
-			t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg, "UT Failed: `Right([1 2 3], [3 2 1])` - got [1 2 3], want [3 2 1].")
-		}
-	})
+	// ASSERT.
+	if testingT.failureMsg != "UT Failed: `Right([1 2 3], [3 2 1])` - got [1 2 3], want [3 2 1]." {
+		t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg, "UT Failed: `Right([1 2 3], [3 2 1])` - got [1 2 3], want [3 2 1].")
+	}
 }
