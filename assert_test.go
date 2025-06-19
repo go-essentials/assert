@@ -33,15 +33,15 @@ import (
 	"github.com/go-essentials/assert"
 )
 
-// The testableT wraps the testing.T struct and adds a field for storing the failure message.
-type testableT struct {
+// Wraps testing.TB in a struct, suitable for testing.
+type testableTB struct {
 	testing.TB
 	failureMsg string
 }
 
-// Fatalf formats args using fmt.Sprintf and stores the result in t.
-func (t *testableT) Fatalf(format string, args ...any) {
-	t.failureMsg = fmt.Sprintf(format, args...)
+// Fatalf formats args using fmt.Sprintf and stores the result in tb.
+func (tb *testableTB) Fatalf(format string, args ...any) {
+	tb.failureMsg = fmt.Sprintf(format, args...)
 }
 
 // UT: Compare a value against the boolean 'true' value.
@@ -70,7 +70,7 @@ func TestTrue(t *testing.T) {
 			t.Parallel() // Enable parallel execution.
 
 			// ARRANGE.
-			testingT := &testableT{TB: t}
+			testingT := &testableTB{TB: t}
 
 			// ACT.
 			assert.True(testingT, tc.gInput, tc.nameInput)
@@ -88,7 +88,7 @@ func TestTruef(t *testing.T) {
 	t.Parallel() // Enable parallel execution.
 
 	// ARRANGE.
-	testingT := &testableT{TB: t}
+	testingT := &testableTB{TB: t}
 
 	// ACT.
 	assert.Truef(testingT, false, "UT Failed: `IsDigit(\"0\")` - got %t, want %t.", false, true)
@@ -125,7 +125,7 @@ func TestFalse(t *testing.T) {
 			t.Parallel() // Enable parallel execution.
 
 			// ARRANGE.
-			testingT := &testableT{TB: t}
+			testingT := &testableTB{TB: t}
 
 			// ACT.
 			assert.False(testingT, tc.gInput, tc.nameInput)
@@ -143,7 +143,7 @@ func TestFalsef(t *testing.T) {
 	t.Parallel() // Enable parallel execution.
 
 	// ARRANGE.
-	testingT := &testableT{TB: t}
+	testingT := &testableTB{TB: t}
 
 	// ACT.
 	assert.Falsef(testingT, true, "UT Failed: `IsLetter(\"0\")` - got %t, want %t.", true, false)
@@ -180,7 +180,7 @@ func TestEqual(t *testing.T) {
 			t.Parallel() // Enable parallel execution.
 
 			// ARRANGE.
-			testingT := &testableT{TB: t}
+			testingT := &testableTB{TB: t}
 
 			// ACT.
 			assert.Equal(testingT, tc.gInput, tc.wInput, tc.nameInput)
@@ -198,7 +198,7 @@ func TestEqualf(t *testing.T) {
 	t.Parallel() // Enable parallel execution.
 
 	// ARRANGE.
-	testingT := &testableT{TB: t}
+	testingT := &testableTB{TB: t}
 
 	// ACT.
 	assert.Equalf(testingT, false, true, "UT Failed: `IsDigit(\"0\")` - got %t, want %t.", false, true)
@@ -235,7 +235,7 @@ func TestNil(t *testing.T) {
 			t.Parallel() // Enable parallel execution.
 
 			// ARRANGE.
-			testingT := &testableT{TB: t}
+			testingT := &testableTB{TB: t}
 
 			// ACT.
 			assert.Nil(testingT, tc.gInput, tc.nameInput)
@@ -253,7 +253,7 @@ func TestNilf(t *testing.T) {
 	t.Parallel() // Enable parallel execution.
 
 	// ARRANGE.
-	testingT := &testableT{TB: t}
+	testingT := &testableTB{TB: t}
 
 	// ACT.
 	assert.Nilf(testingT, 1, "UT Failed: `Update()` - got %v, want <nil>.", 1)
@@ -290,7 +290,7 @@ func TestNotNil(t *testing.T) {
 			t.Parallel() // Enable parallel execution.
 
 			// ARRANGE.
-			testingT := &testableT{TB: t}
+			testingT := &testableTB{TB: t}
 
 			// ACT.
 			assert.NotNil(testingT, tc.gInput, tc.nameInput)
@@ -308,7 +308,7 @@ func TestNotNilf(t *testing.T) {
 	t.Parallel() // Enable parallel execution.
 
 	// ARRANGE.
-	testingT := &testableT{TB: t}
+	testingT := &testableTB{TB: t}
 
 	// ACT.
 	assert.NotNilf(testingT, nil, "UT Failed: `Update()` - got <nil>, want NOT <nil>.")
@@ -347,7 +347,7 @@ func TestEqualS(t *testing.T) {
 			t.Parallel() // Enable parallel execution.
 
 			// ARRANGE.
-			testingT := &testableT{TB: t}
+			testingT := &testableTB{TB: t}
 
 			// ACT.
 			assert.EqualS(testingT, tc.gInput, tc.wInput, tc.nameInput)
@@ -365,7 +365,7 @@ func TestEqualSf(t *testing.T) {
 	t.Parallel() // Enable parallel execution.
 
 	// ARRANGE.
-	testingT := &testableT{TB: t}
+	testingT := &testableTB{TB: t}
 	got, want := []int{1, 2, 3}, []int{3, 2, 1}
 
 	// ACT.
@@ -382,7 +382,7 @@ func TestFail(t *testing.T) {
 	t.Parallel() // Enable parallel execution.
 
 	// ARRANGE.
-	testingT := &testableT{TB: t}
+	testingT := &testableTB{TB: t}
 
 	// ACT.
 	assert.Fail(testingT, "UT Failed: `IsDigit(\"0\")`")
@@ -399,7 +399,7 @@ func TestFailf(t *testing.T) {
 	t.Parallel() // Enable parallel execution.
 
 	// ARRANGE.
-	testingT := &testableT{TB: t}
+	testingT := &testableTB{TB: t}
 
 	// ACT.
 	assert.Failf(testingT, "UT Failed: `IsDigit(\"0\")` - got %t, want %t.", false, true)
