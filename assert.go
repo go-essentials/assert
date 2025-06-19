@@ -42,6 +42,8 @@ const (
 // True compares got against the boolean 'true' value.
 // If they aren't equal, tb is marked as failed, and it's execution is terminated.
 func True(tb testing.TB, got bool, name string, msg ...any) {
+	tb.Helper()
+
 	if !got {
 		failTB(tb, got, true, name, boolFailureMsgTemplate, msg...)
 	}
@@ -50,6 +52,8 @@ func True(tb testing.TB, got bool, name string, msg ...any) {
 // False compares got against the boolean 'false' value.
 // If they aren't equal, tb is marked as failed, and it's execution is terminated.
 func False(tb testing.TB, got bool, name string, msg ...any) {
+	tb.Helper()
+
 	if got {
 		failTB(tb, got, false, name, boolFailureMsgTemplate, msg...)
 	}
@@ -58,6 +62,8 @@ func False(tb testing.TB, got bool, name string, msg ...any) {
 // Equal compares got against want for equality.
 // If they aren't equal, tb is marked as failed, and it's execution is terminated.
 func Equal[V comparable](tb testing.TB, got, want V, name string, msg ...any) {
+	tb.Helper()
+
 	if got != want {
 		failTB(tb, got, want, name, equalFailureMsgTemplate, msg...)
 	}
@@ -66,6 +72,8 @@ func Equal[V comparable](tb testing.TB, got, want V, name string, msg ...any) {
 // Nil compares got against <nil> for equality.
 // If they aren't equal, tb is marked as failed, and it's execution is terminated.
 func Nil(tb testing.TB, got any, name string, msg ...any) {
+	tb.Helper()
+
 	if got != nil {
 		failTB(tb, got, nil, name, nilFailureMessage, msg...)
 	}
@@ -74,6 +82,8 @@ func Nil(tb testing.TB, got any, name string, msg ...any) {
 // NotNil compares got against NOT <nil> for equality.
 // If they aren't equal, tb is marked as failed, and it's execution is terminated.
 func NotNil(tb testing.TB, got any, name string, msg ...any) {
+	tb.Helper()
+
 	if got == nil {
 		failTB(tb, got, nil, name, notNilFailureMessage, msg...)
 	}
@@ -82,6 +92,8 @@ func NotNil(tb testing.TB, got any, name string, msg ...any) {
 // EqualS compares got against want for equality.
 // If they are not equal, tb is marked as failed, and it's execution is terminated.
 func EqualS[S ~[]E, E comparable](tb testing.TB, got, want S, name string, msg ...any) {
+	tb.Helper()
+
 	if !slices.Equal(got, want) {
 		failTB(tb, got, want, name, equalSFailureMsgTemplate, msg...)
 	}
