@@ -156,3 +156,18 @@ func EqualSf[S ~[]E, E comparable](tb testing.TB, got, want S, format string, ar
 		tb.Fatalf(format, args...)
 	}
 }
+
+// Fail marks tb as failed and terminates its execution.
+func Fail(tb testing.TB, name string) {
+	tb.Helper()
+
+	tb.Fatalf("%s", name)
+}
+
+// Failf marks tb as failed and terminates its execution.
+// The error message is formatted using fmt.Sprintf with the provided format and args.
+func Failf(tb testing.TB, format string, args ...any) {
+	tb.Helper()
+
+	tb.Fatalf(format, args...)
+}

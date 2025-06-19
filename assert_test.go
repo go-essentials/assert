@@ -376,3 +376,37 @@ func TestEqualSf(t *testing.T) {
 		t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg, "UT Failed: `Right([1 2 3], [3 2 1])` - got [1 2 3], want [3 2 1].")
 	}
 }
+
+// UT: Fail a test case.
+func TestFail(t *testing.T) {
+	t.Parallel() // Enable parallel execution.
+
+	// ARRANGE.
+	testingT := &testableT{TB: t}
+
+	// ACT.
+	assert.Fail(testingT, "UT Failed: `IsDigit(\"0\")`")
+
+	// ASSERT.
+	if testingT.failureMsg != "UT Failed: `IsDigit(\"0\")`" {
+		t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg,
+			"UT Failed: `IsDigit(\"0\")`")
+	}
+}
+
+// UT: Fail a test case.
+func TestFailf(t *testing.T) {
+	t.Parallel() // Enable parallel execution.
+
+	// ARRANGE.
+	testingT := &testableT{TB: t}
+
+	// ACT.
+	assert.Failf(testingT, "UT Failed: `IsDigit(\"0\")` - got %t, want %t.", false, true)
+
+	// ASSERT.
+	if testingT.failureMsg != "UT Failed: `IsDigit(\"0\")` - got false, want true." {
+		t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg,
+			"UT Failed: `IsDigit(\"0\")` - got false, want true.")
+	}
+}
