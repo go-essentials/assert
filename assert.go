@@ -94,6 +94,27 @@ func Equalf[V comparable](tb testing.TB, got, want V, format string, args ...any
 	}
 }
 
+// EqualFn compares got against want for equality using a custom comparison function.
+// If they aren't equal, tb is marked as failed, and it's execution is terminated.
+func EqualFn[V comparable](tb testing.TB, got, want V, cmpFn func(V, V) bool, name string) {
+	tb.Helper()
+
+	if !cmpFn(got, want) {
+		tb.Fatalf("%s = %v, want %v", name, got, want)
+	}
+}
+
+// EqualFnf compares got against want for equality using a custom comparison function.
+// If they aren't equal, tb is marked as failed, and it's execution is terminated.
+// The error message is formatted using fmt.Sprintf with the provided format and args.
+func EqualFnf[V comparable](tb testing.TB, got, want V, cmpFn func(V, V) bool, format string, args ...any) {
+	tb.Helper()
+
+	if !cmpFn(got, want) {
+		tb.Fatalf(format, args...)
+	}
+}
+
 // Nil compares got against <nil> for equality.
 // If they aren't equal, tb is marked as failed, and it's execution is terminated.
 func Nil(tb testing.TB, got any, name string) {

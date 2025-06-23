@@ -209,6 +209,71 @@ func TestEqualf(t *testing.T) {
 	}
 }
 
+// UT: Compare 2 values for equality using a custom comparison function.
+func TestEqualFn(t *testing.T) {
+	t.Parallel() // Enable parallel execution.
+
+	for tcName, tc := range map[string]struct {
+		gInput, wInput bool
+		cmpFnInput     func(bool, bool) bool
+		nameInput      string
+		want           string
+	}{
+		"When 'got' and 'want' are different.": {
+			gInput: false, wInput: true,
+			cmpFnInput: func(got, want bool) bool {
+				return got == want
+			},
+			nameInput: "IsDigit(\"0\")",
+			want:      "IsDigit(\"0\") = false, want true",
+		},
+		"When 'got' and 'want' are equal.": {
+			gInput: true, wInput: true,
+			cmpFnInput: func(got, want bool) bool {
+				return got == want
+			},
+			nameInput: "IsDigit(\"0\")",
+		},
+	} {
+		tc := tc // Rebind 'tc'. Note: This is required to support "parallel" execution.
+
+		// EXECUTION.
+		t.Run(tcName, func(t *testing.T) {
+			t.Parallel() // Enable parallel execution.
+
+			// ARRANGE.
+			testingT := &testableTB{TB: t}
+
+			// ACT.
+			assert.EqualFn(testingT, tc.gInput, tc.wInput, tc.cmpFnInput, tc.nameInput)
+
+			// ASSERT.
+			if testingT.failureMsg != tc.want {
+				t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg, tc.want)
+			}
+		})
+	}
+}
+
+// UT: Compare 2 values for equality using a custom comparison function.
+func TestEqualFnf(t *testing.T) {
+	t.Parallel() // Enable parallel execution.
+
+	// ARRANGE.
+	testingT := &testableTB{TB: t}
+	cmpFn := func(got, want bool) bool {
+		return got == want
+	}
+
+	// ACT.
+	assert.EqualFnf(testingT, false, true, cmpFn, "UT Failed: `IsDigit(\"0\")` - got %t, want %t.", false, true)
+
+	// ASSERT.
+	if testingT.failureMsg != "UT Failed: `IsDigit(\"0\")` - got false, want true." {
+		t.Fatalf("Failure message = \"%s\", want \"%s\"", testingT.failureMsg, "UT Failed: `IsDigit(\"0\")` - got false, want true.")
+	}
+}
+
 // UT: Compare a value against '<nil>'.
 func TestNil(t *testing.T) {
 	t.Parallel() // Enable parallel execution.
