@@ -214,23 +214,26 @@ func TestEqualFn(t *testing.T) {
 	t.Parallel() // Enable parallel execution.
 
 	for tcName, tc := range map[string]struct {
-		gInput, wInput bool
-		cmpFnInput     func(bool, bool) bool
-		nameInput      string
-		want           string
+		gInput     bool
+		wInput     string
+		cmpFnInput func(bool, string) bool
+		nameInput  string
+		want       string
 	}{
 		"When 'got' and 'want' are different.": {
-			gInput: false, wInput: true,
-			cmpFnInput: func(got, want bool) bool {
-				return got == want
+			gInput: false,
+			wInput: "true",
+			cmpFnInput: func(got bool, want string) bool {
+				return got == true && want == "true" || got == false && want == "false"
 			},
 			nameInput: "IsDigit(\"0\")",
 			want:      "IsDigit(\"0\") = false, want true",
 		},
 		"When 'got' and 'want' are equal.": {
-			gInput: true, wInput: true,
-			cmpFnInput: func(got, want bool) bool {
-				return got == want
+			gInput: true,
+			wInput: "true",
+			cmpFnInput: func(got bool, want string) bool {
+				return got == true && want == "true" || got == false && want == "false"
 			},
 			nameInput: "IsDigit(\"0\")",
 		},
@@ -261,12 +264,12 @@ func TestEqualFnf(t *testing.T) {
 
 	// ARRANGE.
 	testingT := &testableTB{TB: t}
-	cmpFn := func(got, want bool) bool {
-		return got == want
+	cmpFn := func(got bool, want string) bool {
+		return got == true && want == "true" || got == false && want == "false"
 	}
 
 	// ACT.
-	assert.EqualFnf(testingT, false, true, cmpFn, "UT Failed: `IsDigit(\"0\")` - got %t, want %t.", false, true)
+	assert.EqualFnf(testingT, false, "true", cmpFn, "UT Failed: `IsDigit(\"0\")` - got %t, want %t.", false, true)
 
 	// ASSERT.
 	if testingT.failureMsg != "UT Failed: `IsDigit(\"0\")` - got false, want true." {

@@ -96,7 +96,7 @@ func Equalf[V comparable](tb testing.TB, got, want V, format string, args ...any
 
 // EqualFn compares got against want for equality using a custom comparison function.
 // If they aren't equal, tb is marked as failed, and it's execution is terminated.
-func EqualFn[V comparable](tb testing.TB, got, want V, cmpFn func(V, V) bool, name string) {
+func EqualFn[V any, W any](tb testing.TB, got V, want W, cmpFn func(V, W) bool, name string) {
 	tb.Helper()
 
 	if !cmpFn(got, want) {
@@ -107,7 +107,7 @@ func EqualFn[V comparable](tb testing.TB, got, want V, cmpFn func(V, V) bool, na
 // EqualFnf compares got against want for equality using a custom comparison function.
 // If they aren't equal, tb is marked as failed, and it's execution is terminated.
 // The error message is formatted using fmt.Sprintf with the provided format and args.
-func EqualFnf[V comparable](tb testing.TB, got, want V, cmpFn func(V, V) bool, format string, args ...any) {
+func EqualFnf[V any, W any](tb testing.TB, got V, want W, cmpFn func(V, W) bool, format string, args ...any) {
 	tb.Helper()
 
 	if !cmpFn(got, want) {
